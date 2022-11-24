@@ -10,8 +10,9 @@ function exists(file)
    return ok
 end
 
-local LS_url = 'https://github.com/Draco-lang/Compiler'
-local LS_path = 'draco-server/src/Draco.LanguageServer/bin/Debug/net7.0'
+local LS_url         = 'https://github.com/Draco-lang/Compiler'
+local LS_csproj_path = 'draco-server/src/Draco.LanguageServer/Draco.LanguageServer.csproj'
+local LS_exec_path   = 'draco-server/src/Draco.LanguageServer/bin/Debug/net7.0/Draco.LanguageServer'
 
 function DracoPullServer()
     os.execute('rm draco-server')
@@ -19,13 +20,13 @@ function DracoPullServer()
 end
 
 function DracoBuildServer()
-    os.execute('dotnet build --project draco-server/src/Draco.LanguageServer/Draco.LanguageServer.csproj')
+    os.execute('dotnet build --project ' .. LS_csproj_path)
 end
 
 DracoRunServer = function()
    vim.lsp.start({
        name = 'draco',
-       cmd={LS_path},
+       cmd={LS_exec_path},
        root_dir=vim.fs.dirname('src'),
        detached=false,
        on_attach = function(_, bufnr)
