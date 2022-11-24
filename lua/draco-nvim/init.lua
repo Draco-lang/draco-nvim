@@ -39,6 +39,6 @@ vim.cmd[[
 :command DracoPullServer lua DracoPullServer()
 :command DracoBuildServer lua DracoBuildServer()
 :command DracoRunServer lua DracoRunServer()
-:autocmd FileType draco DracoRunServer
 :au BufRead,BufNewFile *.draco set filetype=draco
+:autocmd FileType draco DracoRunServer
 ]]
