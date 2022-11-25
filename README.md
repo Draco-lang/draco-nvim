@@ -2,6 +2,8 @@
 
 This is *very* PoC.
 
+![Screenshot](./screenshots/s1.png)
+
 ### vim-plug
 ```
 Plug 'draco-lang/draco-nvim'

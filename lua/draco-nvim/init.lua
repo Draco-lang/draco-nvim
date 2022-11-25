@@ -16,7 +16,7 @@ local LS_exec_path   = 'draco-server/src/Draco.LanguageServer/bin/Debug/net7.0/D
 
 function DracoPullServer()
     os.execute('rm draco-server')
-    os.execute('git clone ' .. LS_url .. ' draco-server')
+    os.execute('git clone ' .. LS_url .. ' draco-server && cd draco-server && git switch langserver-hotfix')
 end
 
 function DracoBuildServer()
