@@ -1,48 +1,19 @@
--- https://stackoverflow.com/questions/1340230/check-if-directory-exists-in-lua
-function exists(file)
-   local ok, err, code = os.rename(file, file)
-   if not ok then
-      if code == 13 then
-         -- Permission denied, but it exists
-         return true
-      end
-   end
-   return ok
-end
-
-local LS_url         = 'https://github.com/Draco-lang/Compiler'
-local LS_csproj_path = 'draco-server/src/Draco.LanguageServer/Draco.LanguageServer.csproj'
-local LS_exec_path   = 'draco-server/src/Draco.LanguageServer/bin/Debug/net7.0/Draco.LanguageServer'
-
-function DracoPullServer()
-    os.execute('rm draco-server')
-    os.execute('git clone ' .. LS_url .. ' draco-server && cd draco-server && git switch langserver-hotfix')
-end
-
-function DracoBuildServer()
-    os.execute('dotnet build --project ' .. LS_csproj_path)
-end
-
 DracoRunServer = function()
    vim.lsp.start({
        name = 'draco',
-       cmd={LS_exec_path},
+       cmd={ "draco-langserver", "run", "--stdio" },
        root_dir=vim.fs.dirname('src'),
        detached=false,
        on_attach = function(_, bufnr)
-          print('Draco server is running')
+          print('Draco server is running on buffer ' .. bufnr)
        end,
        autostart=true
        })
 end
-vim.cmd[[
-:command DracoPullServer lua DracoPullServer()
-:command DracoBuildServer lua DracoBuildServer()
-:command DracoRunServer lua DracoRunServer()
-]]
-vim.cmd[[
-:au BufRead,BufNewFile *.draco set filetype=draco
-]]
-vim.cmd[[
-:autocmd FileType draco DracoRunServer
-]]
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+    pattern = "*.draco",
+    callback = function (_)
+        vim.b.filetype = "draco"
+        DracoRunServer()
+    end
+})

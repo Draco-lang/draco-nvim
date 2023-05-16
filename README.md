@@ -10,11 +10,4 @@ Plug 'draco-lang/draco-nvim'
 ```
 
 ### Get started
-In your project directory,
-```
-:DracoPullServer
-:DracoBuildServer
-:DracoRunServer
-```
-
-Next time opening a file it should work automatically.
+Make sure to have `draco-langserver` executable in your PATH.
